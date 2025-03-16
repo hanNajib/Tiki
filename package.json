@@ -1,0 +1,13 @@
+{
+  "name": "tiki-time",
+  "version": "1.0.0",
+  "main": "index.js",
+  "module": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["countdown", "tiki", "timer"],
+  "author": "HanNajib",
+  "license": "MIT",
+  "description": "Simple Countdown Timer"
+}
