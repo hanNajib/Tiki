@@ -1,6 +1,6 @@
 {
   "name": "tiki-time",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple countdown timer library",
   "main": "src/index.js",
   "types": "src/index.d.ts",
@@ -16,7 +16,11 @@
     "type": "git",
     "url": "https://github.com/hanNajib/Tiki.git"
   },
-  "keywords": ["countdown", "timer", "javascript"],
+  "keywords": [
+    "countdown",
+    "timer",
+    "javascript"
+  ],
   "author": "HanNajib",
   "license": "MIT"
 }
