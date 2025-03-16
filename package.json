@@ -1,13 +1,22 @@
 {
   "name": "tiki-time",
   "version": "1.0.0",
-  "main": "index.js",
-  "module": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "description": "Simple countdown timer library",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "module": "src/index.js",
+  "exports": {
+    "import": "./src/index.js"
   },
-  "keywords": ["countdown", "tiki", "timer"],
+  "scripts": {
+    "build": "echo 'No build needed for now'",
+    "test": "echo 'No tests yet'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hanNajib/Tiki.git"
+  },
+  "keywords": ["countdown", "timer", "javascript"],
   "author": "HanNajib",
-  "license": "MIT",
-  "description": "Simple Countdown Timer"
+  "license": "MIT"
 }
