@@ -1,16 +1,34 @@
 {
   "name": "tiki-time",
   "version": "1.0.4",
-  "description": "Simple countdown timer library",
-  "main": "src/index.js",
-  "types": "src/index.d.ts",
-  "module": "src/index.js",
+  "description": "Simple countdown timer library for JavaScript, React and Next.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "browser": "dist/tiki.min.js",
   "exports": {
-    "import": "./src/index.js"
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
+      "browser": "./dist/tiki.min.js"
+    }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "echo 'No build needed for now'",
+    "build": "tsup",
+    "dev": "tsup --watch",
     "test": "echo 'No tests yet'"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "devDependencies": {
+    "@types/react": ">=16.8.0",
+    "typescript": "^4.9.0",
+    "tsup": "^7.0.0"
   },
   "repository": {
     "type": "git",

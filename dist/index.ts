@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import type { TikiTime } from './types';
 
 interface TikiTime {
     hours: string;
@@ -83,6 +84,11 @@ class Tiki {
 }
 
 export function useTiki(target?: string | null, duration?: string | null): TikiTime {
+    // Check if we're in a React environment
+    if (typeof React === 'undefined') {
+        throw new Error('useTiki hook requires React to be present');
+    }
+
     const [time, setTime] = useState<TikiTime>({ hours: "00", minutes: "00", seconds: "00" });
     
     useEffect(() => {
@@ -120,8 +126,11 @@ export function useTiki(target?: string | null, duration?: string | null): TikiT
     return time;
 }
 
-// Browser initialization with type check
+// Browser auto-initialization
 if (typeof window !== 'undefined') {
+    // Expose Tiki globally for native JS usage
+    (window as any).Tiki = Tiki;
+    
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll<HTMLElement>('.tiki-time').forEach(el => new Tiki(el));
@@ -131,4 +140,5 @@ if (typeof window !== 'undefined') {
     }
 }
 
+export type { TikiTime };
 export default Tiki;
