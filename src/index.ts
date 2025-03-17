@@ -1,21 +1,36 @@
+import { useState, useEffect } from 'react';
+
+interface TikiTime {
+    hours: string;
+    minutes: string;
+    seconds: string;
+}
+
 class Tiki {
-    constructor(element) {
-        /** @type {HTMLElement} */
+    private target: HTMLElement | null;
+    private hoursEl: HTMLElement | null;
+    private minutesEl: HTMLElement | null;
+    private secondsEl: HTMLElement | null;
+    private endTime: number;
+    private interval: NodeJS.Timeout | null;
+    private onEnd: () => void;
+
+    constructor(element: HTMLElement | null) {
         this.target = element;
-        this.hoursEl = element.querySelector('.tiki-hours') || null;
-        this.minutesEl = element.querySelector('.tiki-minutes') || null;
-        this.secondsEl = element.querySelector('.tiki-seconds') || null;
+        this.hoursEl = element?.querySelector('.tiki-hours') || null;
+        this.minutesEl = element?.querySelector('.tiki-minutes') || null;
+        this.secondsEl = element?.querySelector('.tiki-seconds') || null;
 
         this.onEnd = () => {
             const event = new Event("tiki-end");
-            element.dispatchEvent(event);
+            element?.dispatchEvent(event);
             console.log("TikiTime! (⌒‿⌒)");
         };
 
-        if (this.target.hasAttribute("data-target")) {
-            this.endTime = new Date(this.target.getAttribute("data-target")).getTime();
-        } else if (this.target.hasAttribute("data-duration")) {
-            let duration = this.parseDuration(this.target.getAttribute("data-duration"));
+        if (this.target?.hasAttribute("data-target")) {
+            this.endTime = new Date(this.target.getAttribute("data-target")!).getTime();
+        } else if (this.target?.hasAttribute("data-duration")) {
+            let duration = this.parseDuration(this.target.getAttribute("data-duration")!);
             this.endTime = new Date().getTime() + duration;
         } else {
             console.error("Tiki: Ehh? (・ω・) Where’s data-target or data-duration~?");
@@ -26,7 +41,7 @@ class Tiki {
         this.start();
     }
 
-    parseDuration(durationStr) {
+    parseDuration(durationStr: string): number {
         let totalMs = 0;
         let match = durationStr.match(/(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?/);
         if (match) {
@@ -49,7 +64,7 @@ class Tiki {
         const remainingTime = this.endTime - now;
 
         if (remainingTime <= 0) {
-            clearInterval(this.interval);
+            clearInterval(this.interval!);
             if (this.hoursEl) this.hoursEl.textContent = "00";
             if (this.minutesEl) this.minutesEl.textContent = "00";
             if (this.secondsEl) this.secondsEl.textContent = "00";
@@ -67,12 +82,11 @@ class Tiki {
     }
 }
 
-// React Hook
-export function useTiki(target, duration) {
-    const [time, setTime] = React.useState({ hours: "00", minutes: "00", seconds: "00" });
+export function useTiki(target?: string | null, duration?: string | null): TikiTime {
+    const [time, setTime] = useState<TikiTime>({ hours: "00", minutes: "00", seconds: "00" });
     
-    React.useEffect(() => {
-        let endTime;
+    useEffect(() => {
+        let endTime: number;
         if (target) {
             endTime = new Date(target).getTime();
         } else if (duration) {
@@ -106,14 +120,14 @@ export function useTiki(target, duration) {
     return time;
 }
 
-// Browser initialization
-if (typeof window !== "undefined") {
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", () => {
-            document.querySelectorAll(".tiki-time").forEach(el => new Tiki(el));
+// Browser initialization with type check
+if (typeof window !== 'undefined') {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll<HTMLElement>('.tiki-time').forEach(el => new Tiki(el));
         });
     } else {
-        document.querySelectorAll(".tiki-time").forEach(el => new Tiki(el));
+        document.querySelectorAll<HTMLElement>('.tiki-time').forEach(el => new Tiki(el));
     }
 }
 
