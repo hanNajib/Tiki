@@ -1,47 +1,26 @@
 {
   "name": "tiki-time",
-  "version": "1.0.3",
-  "description": "Simple countdown timer library with React and Next.js support",
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "version": "1.0.1",
+  "description": "Simple countdown timer library",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "module": "src/index.js",
   "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.esm.js",
-      "types": "./dist/index.d.ts"
-    }
+    "import": "./src/index.js"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts",
-    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
-    "typecheck": "tsc --noEmit",
+    "build": "echo 'No build needed for now'",
     "test": "echo 'No tests yet'"
   },
-  "peerDependencies": {
-    "react": ">=16.8.0",
-    "react-dom": ">=16.8.0"
-  },
-  "devDependencies": {
-    "@types/react": ">=16.8.0",
-    "typescript": ">=4.5.0",
-    "tsup": "^7.0.0"
-  },
-  "keywords": [
-    "countdown",
-    "timer",
-    "javascript",
-    "typescript",
-    "react",
-    "nextjs"
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/hanNajib/Tiki.git"
   },
+  "keywords": [
+    "countdown",
+    "timer",
+    "javascript"
+  ],
   "author": "HanNajib",
   "license": "MIT"
 }
