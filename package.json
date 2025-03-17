@@ -1,44 +1,64 @@
 {
   "name": "tiki-time",
-  "version": "1.0.5",
-  "description": "Simple countdown timer library for JavaScript, React and Next.js",
+  "version": "1.0.0",
+  "description": "Simple and cute countdown timer for web applications with TypeScript support",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
-  "browser": "dist/tiki.min.js",
-  "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts",
-      "browser": "./dist/tiki.min.js"
-    }
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "jest",
+    "lint": "eslint src --ext .ts,.tsx",
+    "prepublishOnly": "npm run build"
   },
   "files": [
     "dist"
   ],
-  "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "test": "echo 'No tests yet'"
+  "keywords": [
+    "countdown",
+    "timer",
+    "react",
+    "nextjs",
+    "typescript",
+    "javascript",
+    "vanilla-js"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/tiki-time.git"
   },
+  "bugs": {
+    "url": "https://github.com/yourusername/tiki-time/issues"
+  },
+  "homepage": "https://github.com/yourusername/tiki-time#readme",
   "peerDependencies": {
     "react": ">=16.8.0"
   },
   "devDependencies": {
-    "@types/react": ">=16.8.0",
-    "typescript": "^4.9.0",
-    "tsup": "^7.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/hanNajib/Tiki.git"
-  },
-  "keywords": [
-    "countdown",
-    "timer",
-    "javascript"
-  ],
-  "author": "HanNajib",
-  "license": "MIT"
+    "@babel/core": "^7.23.5",
+    "@babel/preset-env": "^7.23.5",
+    "@babel/preset-react": "^7.23.5",
+    "@babel/preset-typescript": "^7.23.5",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.5",
+    "@types/jest": "^29.5.11",
+    "@types/react": "^18.2.42",
+    "@typescript-eslint/eslint-plugin": "^6.13.2",
+    "@typescript-eslint/parser": "^6.13.2",
+    "eslint": "^8.55.0",
+    "jest": "^29.7.0",
+    "react": "^18.2.0",
+    "rollup": "^4.6.1",
+    "rollup-plugin-dts": "^6.1.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "ts-jest": "^29.1.1",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.2"
+  }
 }
