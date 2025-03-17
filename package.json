@@ -1,6 +1,6 @@
 {
   "name": "tiki-time",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Simple countdown timer library for JavaScript, React and Next.js",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
