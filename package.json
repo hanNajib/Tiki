@@ -1,6 +1,6 @@
 {
   "name": "tiki-time",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Simple countdown timer library with React and Next.js support",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
