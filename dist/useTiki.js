@@ -1,29 +1,45 @@
-import Tiki from "./tiki";
 import { useState, useEffect } from "react";
-export function useTiki(durationOrTarget, onEnd) {
-    const [time, setTime] = useState({ hours: "00", minutes: "00", seconds: "00" });
+export function useTiki(target, onEnd) {
+    const [timeLeft, setTimeLeft] = useState({ hours: "00", minutes: "00", seconds: "00" });
     useEffect(() => {
-        const tiki = new Tiki(null, durationOrTarget, () => {
-            if (onEnd)
-                onEnd();
-        });
-        const updateTime = () => {
-            const now = new Date().getTime();
-            const remaining = tiki["endTime"] - now;
+        if (typeof window === "undefined")
+            return; // Pastikan hanya berjalan di client
+        let endTime;
+        if (target.includes("h") || target.includes("m") || target.includes("s")) {
+            endTime = Date.now() + parseDuration(target);
+        }
+        else {
+            endTime = new Date(target).getTime();
+        }
+        const update = () => {
+            const now = Date.now();
+            const remaining = endTime - now;
             if (remaining <= 0) {
-                setTime({ hours: "00", minutes: "00", seconds: "00" });
+                setTimeLeft({ hours: "00", minutes: "00", seconds: "00" });
+                if (onEnd)
+                    onEnd();
                 return;
             }
-            setTime({
-                hours: String(Math.floor(remaining / 3600000)).padStart(2, "0"),
-                minutes: String(Math.floor((remaining % 3600000) / 60000)).padStart(2, "0"),
-                seconds: String(Math.floor((remaining % 60000) / 1000)).padStart(2, "0"),
+            setTimeLeft({
+                hours: String(Math.floor(remaining / (1000 * 60 * 60))).padStart(2, "0"),
+                minutes: String(Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, "0"),
+                seconds: String(Math.floor((remaining % (1000 * 60)) / 1000)).padStart(2, "0"),
             });
         };
-        const interval = setInterval(updateTime, 1000);
-        updateTime();
+        update();
+        const interval = setInterval(update, 1000);
         return () => clearInterval(interval);
-    }, [durationOrTarget]);
-    return time;
+    }, [target, onEnd]);
+    return timeLeft;
+}
+function parseDuration(durationStr) {
+    let totalMs = 0;
+    let match = durationStr.match(/(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?/);
+    if (match) {
+        totalMs += (match[1] ? parseInt(match[1]) * 3600000 : 0);
+        totalMs += (match[2] ? parseInt(match[2]) * 60000 : 0);
+        totalMs += (match[3] ? parseInt(match[3]) * 1000 : 0);
+    }
+    return totalMs;
 }
 //# sourceMappingURL=useTiki.js.map

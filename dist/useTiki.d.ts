@@ -1,4 +1,4 @@
-export declare function useTiki(durationOrTarget: string, onEnd?: () => void): {
+export declare function useTiki(target: string, onEnd?: () => void): {
     hours: string;
     minutes: string;
     seconds: string;
