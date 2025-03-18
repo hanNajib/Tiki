@@ -2,26 +2,42 @@ class Tiki {
     private endTime: number;
     private interval: number | null = null;
     private onEnd: () => void;
-
-    constructor(private target: HTMLElement) {
-        const hoursEl = target.querySelector('.tiki-hours') as HTMLElement | null;
-        const minutesEl = target.querySelector('.tiki-minutes') as HTMLElement | null;
-        const secondsEl = target.querySelector('.tiki-seconds') as HTMLElement | null;
+    
+    constructor(
+        private target?: HTMLElement | null,
+        durationOrTarget?: string,
+        onEndCallback?: () => void
+    ) {
+        const isDirectUsage = typeof durationOrTarget === "string";
 
         this.onEnd = () => {
-            const event = new Event("tiki-end");
-            target.dispatchEvent(event);
+            if (onEndCallback) onEndCallback();
+            if (this.target) {
+                const event = new Event("tiki-end");
+                this.target.dispatchEvent(event);
+            }
+            console.log("TikiTime! ⏳");
         };
 
-        if (target.hasAttribute("data-target")) {
-            this.endTime = new Date(target.getAttribute("data-target")!).getTime();
-        } else if (target.hasAttribute("data-duration")) {
-            this.endTime = new Date().getTime() + this.parseDuration(target.getAttribute("data-duration")!);
+        if (isDirectUsage) {
+            if (durationOrTarget.includes(":") || durationOrTarget.includes("-")) {
+                this.endTime = new Date(durationOrTarget).getTime();
+            } else {
+                this.endTime = new Date().getTime() + this.parseDuration(durationOrTarget);
+            }
+        } else if (this.target) {
+            if (this.target.hasAttribute("data-target")) {
+                this.endTime = new Date(this.target.getAttribute("data-target")!).getTime();
+            } else if (this.target.hasAttribute("data-duration")) {
+                this.endTime = new Date().getTime() + this.parseDuration(this.target.getAttribute("data-duration")!);
+            } else {
+                throw new Error("Tiki: data-target or data-duration is required.");
+            }
         } else {
-            throw new Error("Tiki: data-target or data-duration is required.");
+            throw new Error("Tiki: Missing target or duration.");
         }
 
-        this.start(hoursEl, minutesEl, secondsEl);
+        this.start();
     }
 
     private parseDuration(durationStr: string): number {
@@ -32,43 +48,34 @@ class Tiki {
                (parseInt(match[3] || "0") * 1000);
     }
 
-    private start(hoursEl: HTMLElement | null, minutesEl: HTMLElement | null, secondsEl: HTMLElement | null) {
-        this.update(hoursEl, minutesEl, secondsEl);
-        this.interval = window.setInterval(() => this.update(hoursEl, minutesEl, secondsEl), 1000);
+    private start() {
+        this.update();
+        this.interval = window.setInterval(() => this.update(), 1000);
     }
 
-    private update(hoursEl: HTMLElement | null, minutesEl: HTMLElement | null, secondsEl: HTMLElement | null) {
+    private update() {
         const remaining = this.endTime - new Date().getTime();
         if (remaining <= 0) {
             if (this.interval) clearInterval(this.interval);
-            hoursEl && (hoursEl.textContent = "00");
-            minutesEl && (minutesEl.textContent = "00");
-            secondsEl && (secondsEl.textContent = "00");
             this.onEnd();
             return;
         }
 
-        const formatNumber = (num: number) => num.toString().padStart(2, "0");
-        hoursEl && (hoursEl.textContent = formatNumber(Math.floor(remaining / 3600000)));
-        minutesEl && (minutesEl.textContent = formatNumber(Math.floor((remaining % 3600000) / 60000)));
-        secondsEl && (secondsEl.textContent = formatNumber(Math.floor((remaining % 60000) / 1000)));
+        if (this.target) {
+            this.target.querySelector(".tiki-hours")!.textContent = String(Math.floor(remaining / 3600000)).padStart(2, "0");
+            this.target.querySelector(".tiki-minutes")!.textContent = String(Math.floor((remaining % 3600000) / 60000)).padStart(2, "0");
+            this.target.querySelector(".tiki-seconds")!.textContent = String(Math.floor((remaining % 60000) / 1000)).padStart(2, "0");
+        }
+    }
+
+    public stop() {
+        if (this.interval) clearInterval(this.interval);
     }
 }
 
-const observer = new MutationObserver(() => {
-    document.querySelectorAll<HTMLElement>(".tiki-time:not([data-init])").forEach(el => {
-        el.setAttribute("data-init", "true");
-        new Tiki(el);
-    });
-});
-
-observer.observe(document.body, { childList: true, subtree: true });
-
+// Auto-init untuk HTML Native
 document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll<HTMLElement>(".tiki-time:not([data-init])").forEach(el => {
-        el.setAttribute("data-init", "true");
-        new Tiki(el);
-    });
+    document.querySelectorAll<HTMLElement>(".tiki-time").forEach(el => new Tiki(el));
 });
 
 export default Tiki;
