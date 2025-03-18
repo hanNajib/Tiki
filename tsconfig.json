@@ -1,33 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "esnext",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "declaration": true,
-    "declarationDir": "dist",
-    "sourceMap": true,
-    "outDir": "dist",
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictPropertyInitialization": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "moduleResolution": "node",
-    "jsx": "react",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",
-    "paths": {
-      "*": ["node_modules/*"]
-    }
+    "outDir": "dist",          
+    "module": "ESNext",         
+    "target": "ES2017",         
+    "lib": ["ES2017", "DOM"],   
+    "declaration": true,        
+    "declarationMap": true,     
+    "sourceMap": true,          
+    "strict": true,             
+    "esModuleInterop": true,    
+    "skipLibCheck": true,       
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "example"]
+  "include": ["src"],           
+  "exclude": ["node_modules", "dist"]
 }

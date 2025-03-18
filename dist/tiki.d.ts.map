@@ -1,0 +1,1 @@
+{"version":3,"file":"tiki.d.ts","sourceRoot":"","sources":["../src/tiki.ts"],"names":[],"mappings":"AAAA,cAAM,IAAI;IAKM,OAAO,CAAC,MAAM;IAJ1B,OAAO,CAAC,OAAO,CAAS;IACxB,OAAO,CAAC,QAAQ,CAAuB;IACvC,OAAO,CAAC,KAAK,CAAa;gBAEN,MAAM,EAAE,WAAW;IAqBvC,OAAO,CAAC,aAAa;IAQrB,OAAO,CAAC,KAAK;IAKb,OAAO,CAAC,MAAM;CAgBjB;AAmBD,eAAe,IAAI,CAAC"}
