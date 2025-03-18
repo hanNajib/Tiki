@@ -1,9 +1,11 @@
+"use client"; // Pastikan berjalan di client
 import { useState, useEffect } from "react";
 export function useTiki(target, onEnd) {
     const [timeLeft, setTimeLeft] = useState({ hours: "00", minutes: "00", seconds: "00" });
     useEffect(() => {
+        // Cek apakah kita di client, kalau tidak, return
         if (typeof window === "undefined")
-            return; // Pastikan hanya berjalan di client
+            return;
         let endTime;
         if (target.includes("h") || target.includes("m") || target.includes("s")) {
             endTime = Date.now() + parseDuration(target);
