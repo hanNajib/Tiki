@@ -1,13 +1,12 @@
-"use client"; // Pastikan berjalan di client
+"use client"; // Pastikan kode ini hanya jalan di client 🚀
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function useTiki(target: string, onEnd?: () => void) {
     const [timeLeft, setTimeLeft] = useState({ hours: "00", minutes: "00", seconds: "00" });
 
     useEffect(() => {
-        // Cek apakah kita di client, kalau tidak, return
-        if (typeof window === "undefined") return;
+        if (typeof window === "undefined") return; // Fix SSR 🚀
 
         let endTime: number;
         if (target.includes("h") || target.includes("m") || target.includes("s")) {

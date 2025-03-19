@@ -70,9 +70,10 @@ class Tiki {
             clearInterval(this.interval);
     }
 }
-// Auto-init untuk HTML Native
-document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".tiki-time").forEach(el => new Tiki(el));
-});
+if (typeof window !== "undefined" && typeof document !== "undefined") {
+    window.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".tiki-time").forEach(el => new Tiki(el));
+    });
+}
 export default Tiki;
 //# sourceMappingURL=tiki.js.map

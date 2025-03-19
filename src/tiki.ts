@@ -73,9 +73,12 @@ class Tiki {
     }
 }
 
-// Auto-init untuk HTML Native
-document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll<HTMLElement>(".tiki-time").forEach(el => new Tiki(el));
-});
+if (typeof window !== "undefined" && typeof document !== "undefined") {
+    window.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll<HTMLElement>(".tiki-time").forEach(el => new Tiki(el));
+    });
+}
+
+
 
 export default Tiki;
